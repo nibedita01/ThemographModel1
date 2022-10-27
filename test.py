@@ -80,6 +80,24 @@ def generate_instance(rows):
     pass
 
 
+# pass data as a list
+def toDataFrame(data):
+    pid = []
+    timg = []
+    label = []
+    for item in data:
+        pid.append(item[0])
+        timg.append(item[1])
+        label.append(item[2])
+    return pid, timg, label
+
+
+pid, timg, label = toDataFrame(data)
+df = pd.DataFrame([pid, timg, label]).transpose()
+df.columns = ['pid', 'timg', 'label']
+
+write_list(df, 'dmr_ir_dataset')
+
 generate_instance(rows)
 print(dmr_ir)
 print(len(dmr_ir))

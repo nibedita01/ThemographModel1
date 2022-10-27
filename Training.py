@@ -1,5 +1,10 @@
 # set the matplotlib backend so figures can be saved in the background
+
+# to run this use cli
+# python train.py --model output/model.pth --plot output/plot.png
 import matplotlib
+
+from dataloader import DMRIRDataset, DMRIRTestDataset
 
 matplotlib.use("Agg")
 # import the necessary packages
@@ -35,12 +40,12 @@ VAL_SPLIT = 1 - TRAIN_SPLIT
 # set the device we will be using to train the model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# load the KMNIST dataset
-print("[INFO] loading the KMNIST dataset...")
-trainData = KMNIST(root="data", train=True, download=True,
-                   transform=ToTensor())
-testData = KMNIST(root="data", train=False, download=True,
-                  transform=ToTensor())
+# load the DMR-IR dataset
+print("[INFO] loading the DMR-IR dataset...")
+trainData = DMRIRDataset()
+testData = DMRIRTestDataset()
+#KMNIST(root="data", train=False, download=True,
+#                  transform=ToTensor())
 # calculate the train/validation split
 print("[INFO] generating the train/validation split...")
 numTrainSamples = int(len(trainData) * TRAIN_SPLIT)
@@ -61,8 +66,8 @@ valSteps = len(valDataLoader.dataset) // BATCH_SIZE
 # initialize the LeNet model
 print("[INFO] initializing the LeNet model...")
 model = LeNet(
-    numChannels=1,
-    classes=len(trainData.dataset.classes)).to(device)
+    numChannels=64,
+    classes=2).to(device)
 # initialize our optimizer and loss function
 opt = Adam(model.parameters(), lr=INIT_LR)
 lossFn = nn.NLLLoss()

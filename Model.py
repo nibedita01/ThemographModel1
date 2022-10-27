@@ -39,6 +39,7 @@ class LeNet(Module):
     def forward(self, x):
         # pass the input through our first set of CONV => RELU =>
         # POOL layers
+        x = x.Float()
         x = self.conv1(x)
         x = self.relu1(x)
         x = self.maxpool1(x)
