@@ -2,9 +2,12 @@
 import pandas as pd
 import os
 import random
+import gc
+
+from pickle_use import write_list
 
 # Folder Path
-path = "E:\\datasets\\DMR-IR_dataset\\HEALTHY\\42\\Matrizes\\PAC_11_DN0.txt"
+path = r"E:\research\nibedita\data\thermo_graphy_data\DMR-IR_dataset\HEALTHY"
 
 
 # Change the directory
@@ -14,20 +17,23 @@ path = "E:\\datasets\\DMR-IR_dataset\\HEALTHY\\42\\Matrizes\\PAC_11_DN0.txt"
 
 def matrix_injector(path):
     df = pd.read_csv(path, sep='\s+', header=None)
-    mat1 = df.values.tolist()
-    print(mat1)
-    print(len(mat1))
-    print(type(mat1))
+    mat1 = df.to_numpy()
+    #print(mat1)
+
+    print(mat1.shape)
+    #print(type(mat1))
+    gc.collect()
     return mat1
 
-# folder path
-dir_path = r'E:\\datasets\\DMR-IR_dataset\\HEALTHY\\'
-pre = 'E:\\datasets\\DMR-IR_dataset\\HEALTHY\\'
-post = '\\Matrizes'
 
-sickdir = r'E:\\datasets\\DMR-IR_dataset\\SICK'
-sickpre = 'E:\\datasets\\DMR-IR_dataset\\SICK\\'
-sickpost = '\\Matrizes'
+# folder path
+dir_path = r"E:\\research\\nibedita\\data\\thermo_graphy_data\\DMR-IR_dataset\\HEALTHY\\"
+pre = dir_path
+post = r'\\Matrizes'
+
+sickdir = r"E:\\research\\nibedita\\data\\thermo_graphy_data\\DMR-IR_dataset\\SICK\\"
+sickpre = sickdir
+sickpost = r'\\Matrizes'
 
 # list to store files
 healthy_file_list = []
@@ -70,15 +76,15 @@ for name in sick_file_list:
     sick_example = []
     i += 1
 
-print(healthy_example)
-print(sick_example)
+#print(healthy_example)
+#print(sick_example)
 
 rows.append(healthy_example)
 rows.append(sick_example)
 
-random.shuffle(rows)
+# random.shuffle(rows)
 print(rows)
-print(len(rows))
+#print(len(rows))
 
 dmr_ir = []
 
@@ -99,8 +105,9 @@ def generate_instance(rows):
 
 
 generate_instance(rows)
-#print(dmr_ir)
+# print(dmr_ir)
 print(len(dmr_ir))
+write_list(dmr_ir)
 # writing to csv file
 # with open(dataset_name, 'w') as csvfile:
 # creating a csv writer object
