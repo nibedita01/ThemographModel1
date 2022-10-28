@@ -1,7 +1,7 @@
 # set the matplotlib backend so figures can be saved in the background
 
 # to run this use cli
-# python train.py --model output/model.pth --plot output/plot.png
+# python Training.py --model output/model.pth --plot output/plot.png
 import matplotlib
 
 from dataloader import DMRIRDataset, DMRIRTestDataset
@@ -44,7 +44,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("[INFO] loading the DMR-IR dataset...")
 trainData = DMRIRDataset()
 testData = DMRIRTestDataset()
-#KMNIST(root="data", train=False, download=True,
+# KMNIST(root="data", train=False, download=True,
 #                  transform=ToTensor())
 # calculate the train/validation split
 print("[INFO] generating the train/validation split...")
@@ -182,7 +182,3 @@ for e in range(0, EPOCHS):
         plt.savefig(args["plot"])
         # serialize the model to disk
         torch.save(model, args["model"])
-
-
-
-
